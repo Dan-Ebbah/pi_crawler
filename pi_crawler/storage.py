@@ -26,10 +26,10 @@ def save_profiles(profiles: List[PIProfile]) -> None:
     # Mock mode: if no DSN is configured, just print the profiles instead of saving
     if not DB_DSN:
         print(f"[MOCK] Would save {len(profiles)} profiles to database:")
-        for i, p in enumerate(profiles[:6], 1):  # Show first 3 as sample
+        for i, p in enumerate(profiles[:3], 1):  # Show first 3 as sample
             print(f"  {i}. {p.full_name} ({p.title}) - {p.email} - {p.profile_url} - {p.personal_website_url} - {p.raw_research_text}")
         if len(profiles) > 3:
-            print(f"  ... and {len(profiles) - 6} more")
+            print(f"  ... and {len(profiles) - 3} more")
         return
 
     # Real DB mode
