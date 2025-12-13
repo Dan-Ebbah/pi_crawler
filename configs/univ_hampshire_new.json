@@ -1,23 +1,31 @@
 {
-  "id": "example_cs_new",
-  "name": "Example University (New Format)",
+  "id": "hampshire_cs_new",
+  "name": "University of New Hampshire",
   "department": "Computer Science",
-  "template": "standard_faculty_list",
-  "faculty_list_url": "https://cs.example.edu/faculty",
+  "faculty_list_url": "https://ceps.unh.edu/computer-science/faculty-staff-directory",
   "request_delay_seconds": 1.0,
   
   "list_item": {
-    "selectors": [".faculty-card", ".profile-item"],
+    "selectors": [".person-list__person"],
     "strategy": "css"
   },
   
   "fields": {
     "full_name": {
       "extractors": [
+        {"strategy": "css", "selector": ".person-list__person__content__name", "attribute": "text"},
         {"strategy": "css", "selector": ".faculty-name", "attribute": "text"},
-        {"strategy": "css", "selector": "h3.name", "attribute": "text"}
+        {"strategy": "css", "selector": "h3", "attribute": "text"}
       ],
-      "required": true
+      "required": true,
+      "validation": "^[A-Z][a-zA-Z\\s.-]+$"
+    },
+    "title": {
+      "extractors": [
+        {"strategy": "css", "selector": ".person-list__prof-title", "attribute": "text"},
+        {"strategy": "css", "selector": ".faculty-title", "attribute": "text"}
+      ],
+      "required": false
     },
     "email": {
       "extractors": [
@@ -28,7 +36,8 @@
     },
     "profile_url": {
       "extractors": [
-        {"strategy": "css", "selector": "a[href*='/faculty/']", "attribute": "href"}
+        {"strategy": "css", "selector": "a[href*='/faculty/']", "attribute": "href"},
+        {"strategy": "css", "selector": ".person-list__person__content__name a", "attribute": "href"}
       ],
       "required": false,
       "transform": "absolute_url"
@@ -48,7 +57,8 @@
       "raw_research_text": {
         "extractors": [
           {"strategy": "heading_section", "keywords": ["research", "interests"], "content_type": "ul"},
-          {"strategy": "heading_section", "keywords": ["research", "interests"], "content_type": "p"}
+          {"strategy": "heading_section", "keywords": ["research", "interests"], "content_type": "p"},
+          {"strategy": "heading_section", "keywords": ["research", "areas"], "content_type": "ul"}
         ]
       }
     }

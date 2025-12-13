@@ -48,7 +48,7 @@
     "fields": {
       "personal_website_url": {
         "extractors": [
-          {"strategy": "css", "selector": "a:contains('website')", "attribute": "href"},
+          {"strategy": "regex", "pattern": "href=[\"'](https?://[^\"']*(?:personal|website)[^\"']*)[\"']", "group": 1},
           {"strategy": "css", "selector": "a.personal-site", "attribute": "href"},
           {"strategy": "css", "selector": "a[href*='personal']", "attribute": "href"}
         ],
