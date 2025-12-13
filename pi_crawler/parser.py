@@ -115,7 +115,7 @@ def _parse_faculty_list_new_format(soup: BeautifulSoup, config: UniversityConfig
         for field_name, field_config in fields_config.items():
             value = extract_field(item, field_config, config.faculty_list_url)
             
-            # Apply transformations if specified
+            # Apply field-level transformations if specified
             if value and "transform" in field_config:
                 transform = field_config["transform"]
                 if isinstance(transform, str):
@@ -123,14 +123,6 @@ def _parse_faculty_list_new_format(soup: BeautifulSoup, config: UniversityConfig
                 elif isinstance(transform, list):
                     for t in transform:
                         value = apply_transform(value, t, config.faculty_list_url)
-            
-            # Apply extractor-level transforms
-            extractors = field_config.get("extractors", [])
-            for extractor_config in extractors:
-                if "transform" in extractor_config and value:
-                    transform = extractor_config["transform"]
-                    value = apply_transform(value, transform, config.faculty_list_url)
-                    break  # Only apply transform from successful extractor
             
             # Validate field
             validate_field(field_name, value, field_config, log_warnings=True)

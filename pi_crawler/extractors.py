@@ -101,11 +101,7 @@ class XPathExtractor(BaseExtractor):
             from lxml import etree
             
             # Convert BeautifulSoup to lxml
-            if isinstance(soup, Tag):
-                html_str = str(soup)
-            else:
-                html_str = str(soup)
-            
+            html_str = str(soup)
             tree = etree.HTML(html_str)
             results = tree.xpath(selector)
             
@@ -149,10 +145,13 @@ class HeadingSectionExtractor(BaseExtractor):
         keywords = [kw.lower() for kw in keywords]
         
         # Find heading that contains any of the keywords
-        heading = soup.find(
-            lambda tag: tag.name in ["h1", "h2", "h3", "h4", "h5", "h6"] 
-            and any(kw in tag.get_text(strip=True).lower() for kw in keywords)
-        )
+        def matches_keywords(tag):
+            if tag.name not in ["h1", "h2", "h3", "h4", "h5", "h6"]:
+                return False
+            text_lower = tag.get_text(strip=True).lower()
+            return any(kw in text_lower for kw in keywords)
+        
+        heading = soup.find(matches_keywords)
         
         if not heading:
             return None
@@ -272,6 +271,8 @@ def extract_field(
     Returns:
         Extracted value or None if all extractors failed
     """
+    from .transforms import apply_transform
+    
     extractors = field_config.get("extractors", [])
     
     for i, extractor_config in enumerate(extractors):
@@ -282,6 +283,11 @@ def extract_field(
         try:
             value = extractor.extract(soup, base_url)
             if value:
+                # Apply extractor-level transform if specified
+                if "transform" in extractor_config:
+                    transform = extractor_config["transform"]
+                    value = apply_transform(value, transform, base_url)
+                
                 logger.debug(f"Extractor {i+1} ({extractor_config.get('strategy')}) succeeded")
                 return value
         except Exception as e:

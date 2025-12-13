@@ -22,12 +22,17 @@ def absolute_url(value: Optional[str], base_url: Optional[str] = None) -> Option
     return urljoin(base_url, value)
 
 
+def _strip_or_none(value: str) -> Optional[str]:
+    """Helper to strip and return None if empty."""
+    stripped = value.strip()
+    return stripped if stripped else None
+
+
 def strip_whitespace(value: Optional[str]) -> Optional[str]:
     """Strip leading and trailing whitespace."""
     if not value:
         return None
-    stripped = value.strip()
-    return stripped if stripped else None
+    return _strip_or_none(value)
 
 
 def normalize_whitespace(value: Optional[str]) -> Optional[str]:

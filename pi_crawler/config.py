@@ -66,8 +66,10 @@ class UniversityConfig:
         list_item = data.get("list_item", {})
         if isinstance(list_item, dict):
             selectors = list_item.get("selectors", [])
-            if selectors:
-                old_format["item_selector"] = selectors[0] if isinstance(selectors, list) else selectors
+            if isinstance(selectors, list) and selectors:
+                old_format["item_selector"] = selectors[0]
+            elif selectors:
+                old_format["item_selector"] = selectors
             else:
                 old_format["item_selector"] = list_item.get("selector", ".item")
         else:
