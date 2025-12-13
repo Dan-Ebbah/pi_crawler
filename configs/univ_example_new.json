@@ -1,0 +1,55 @@
+{
+  "id": "example_cs_new",
+  "name": "Example University (New Format)",
+  "department": "Computer Science",
+  "template": "standard_faculty_list",
+  "faculty_list_url": "https://cs.example.edu/faculty",
+  "request_delay_seconds": 1.0,
+  
+  "list_item": {
+    "selectors": [".faculty-card", ".profile-item"],
+    "strategy": "css"
+  },
+  
+  "fields": {
+    "full_name": {
+      "extractors": [
+        {"strategy": "css", "selector": ".faculty-name", "attribute": "text"},
+        {"strategy": "css", "selector": "h3.name", "attribute": "text"}
+      ],
+      "required": true
+    },
+    "email": {
+      "extractors": [
+        {"strategy": "css", "selector": "a[href^='mailto:']", "attribute": "href", "transform": "strip_mailto"}
+      ],
+      "required": false,
+      "validation": "^[\\w.-]+@[\\w.-]+\\.\\w+$"
+    },
+    "profile_url": {
+      "extractors": [
+        {"strategy": "css", "selector": "a[href*='/faculty/']", "attribute": "href"}
+      ],
+      "required": false,
+      "transform": "absolute_url"
+    }
+  },
+  
+  "profile_page": {
+    "enabled": true,
+    "fields": {
+      "personal_website_url": {
+        "extractors": [
+          {"strategy": "css", "selector": "a:contains('website')", "attribute": "href"}
+        ],
+        "transform": "absolute_url"
+      },
+      "raw_research_text": {
+        "extractors": [
+          {"strategy": "heading_section", "keywords": ["research", "interests"], "content_type": "ul"},
+          {"strategy": "heading_section", "keywords": ["research", "interests"], "content_type": "p"}
+        ]
+      }
+    }
+  }
+}
