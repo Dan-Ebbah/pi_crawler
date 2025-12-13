@@ -1,0 +1,65 @@
+{
+  "request_delay_seconds": 1.0,
+  "research_heading_keywords": ["research", "interests"],
+  
+  "list_item": {
+    "selectors": [".faculty-card", ".profile-item", ".person-list__person"],
+    "strategy": "css"
+  },
+  
+  "fields": {
+    "full_name": {
+      "extractors": [
+        {"strategy": "css", "selector": ".faculty-name", "attribute": "text"},
+        {"strategy": "css", "selector": ".profile-name", "attribute": "text"},
+        {"strategy": "css", "selector": "h3.name", "attribute": "text"},
+        {"strategy": "css", "selector": ".person-list__person__content__name", "attribute": "text"}
+      ],
+      "required": true
+    },
+    "title": {
+      "extractors": [
+        {"strategy": "css", "selector": ".faculty-title", "attribute": "text"},
+        {"strategy": "css", "selector": ".profile-title", "attribute": "text"},
+        {"strategy": "css", "selector": ".person-list__prof-title", "attribute": "text"}
+      ],
+      "required": false
+    },
+    "email": {
+      "extractors": [
+        {"strategy": "css", "selector": "a[href^='mailto:']", "attribute": "href", "transform": "strip_mailto"}
+      ],
+      "required": false,
+      "validation": "^[\\w.-]+@[\\w.-]+\\.\\w+$"
+    },
+    "profile_url": {
+      "extractors": [
+        {"strategy": "css", "selector": "a[href*='/faculty/']", "attribute": "href"},
+        {"strategy": "css", "selector": "a.profile-link", "attribute": "href"},
+        {"strategy": "css", "selector": "a[href*='/profile/']", "attribute": "href"}
+      ],
+      "required": false,
+      "transform": "absolute_url"
+    }
+  },
+  
+  "profile_page": {
+    "enabled": true,
+    "fields": {
+      "personal_website_url": {
+        "extractors": [
+          {"strategy": "regex", "pattern": "href=[\"'](https?://[^\"']*(?:personal|website)[^\"']*)[\"']", "group": 1},
+          {"strategy": "css", "selector": "a.personal-site", "attribute": "href"},
+          {"strategy": "css", "selector": "a[href*='personal']", "attribute": "href"}
+        ],
+        "transform": "absolute_url"
+      },
+      "raw_research_text": {
+        "extractors": [
+          {"strategy": "heading_section", "keywords": ["research", "interests"], "content_type": "ul"},
+          {"strategy": "heading_section", "keywords": ["research", "interests"], "content_type": "p"}
+        ]
+      }
+    }
+  }
+}
