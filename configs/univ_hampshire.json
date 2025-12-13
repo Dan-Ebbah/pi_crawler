@@ -1,0 +1,13 @@
+{
+  "id": "hampshire_cs",
+  "name": "University of New Hampshire",
+  "department": "Computer Science",
+  "faculty_list_url": "https://ceps.unh.edu/computer-science/faculty-staff-directory",
+  "item_selector": ".person-list__person",
+  "name_selector": ".person-list__person__content__name",
+  "title_selector": ".person-list__prof-title",
+  "email_selector": "a[href^='mailto:']",
+  "profile_link_selector": "a[href*='/faculty/']",
+  "research_heading_keywords": ["research", "interests"],
+  "request_delay_seconds": 1.0
+}

@@ -1,0 +1,13 @@
+{
+  "id": "example_cs",
+  "name": "Example University",
+  "department": "Computer Science",
+  "faculty_list_url": "https://cs.example.edu/faculty",
+  "item_selector": ".faculty-card",
+  "name_selector": ".faculty-name",
+  "title_selector": ".faculty-title",
+  "email_selector": "a[href^='mailto:']",
+  "profile_link_selector": "a[href*='/faculty/']",
+  "research_heading_keywords": ["research", "interests"],
+  "request_delay_seconds": 1.0
+}
