@@ -1,5 +1,4 @@
 import os
-import psycopg2
 from contextlib import contextmanager
 from typing import List
 from .models import PIProfile
@@ -8,6 +7,11 @@ DB_DSN = os.getenv("PI_CRAWLER_DB_DSN")
 
 @contextmanager
 def get_db_connection():
+    try:
+        import psycopg2
+    except ImportError:
+        raise ImportError("psycopg2 is required for database storage. Install with: pip install psycopg2-binary")
+    
     conn = psycopg2.connect(DB_DSN)
     try:
         yield conn
