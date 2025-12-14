@@ -1,0 +1,68 @@
+{
+  "_comment": "This is a template configuration file. Copy and customize for your university.",
+
+  "id": "university_department",
+  "name": "University Name",
+  "department": "Department Name",
+  "faculty_list_url": "https://example.edu/department/faculty",
+
+  "_selectors_comment": "CSS selectors to find elements on the page. Use browser DevTools to inspect.",
+
+  "item_selector": ".faculty-card",
+  "name_selector": ".faculty-name",
+  "title_selector": ".faculty-title",
+  "email_selector": "a[href^='mailto:']",
+  "profile_link_selector": "a.profile-link",
+  "personal_website_selector": null,
+  "research_text_selector": null,
+  "image_selector": null,
+
+  "_alternative_selectors_comment": "Fallback selectors if primary ones don't match",
+  "alt_name_selectors": [],
+  "alt_email_selectors": [],
+  "alt_profile_link_selectors": [],
+
+  "_research_comment": "Keywords to identify research sections on profile pages",
+  "research_heading_keywords": ["research", "interests", "expertise", "specialization", "focus areas"],
+  "research_section_tags": ["h1", "h2", "h3", "h4", "strong", "b"],
+
+  "_enrichment_comment": "Settings for fetching individual profile pages",
+  "enrichment_enabled": true,
+  "personal_website_keywords": ["website", "homepage", "personal", "home page", "personal site"],
+
+  "_rate_limiting_comment": "Be respectful - use at least 1.0 second delay",
+  "request_delay_seconds": 1.0,
+
+  "_pagination_comment": "Optional: Configure if faculty list spans multiple pages",
+  "pagination": null,
+
+  "_pagination_examples": {
+    "page_param_example": {
+      "enabled": true,
+      "type": "page_param",
+      "param_name": "page",
+      "start_value": 1,
+      "increment": 1,
+      "max_pages": 50,
+      "stop_when_empty": true
+    },
+    "offset_param_example": {
+      "enabled": true,
+      "type": "offset_param",
+      "param_name": "offset",
+      "start_value": 0,
+      "increment": 20,
+      "max_pages": 50
+    },
+    "next_link_example": {
+      "enabled": true,
+      "type": "next_link",
+      "next_link_selector": "a.next-page",
+      "max_pages": 50
+    }
+  },
+
+  "_advanced_comment": "Advanced options (usually not needed)",
+  "base_url": null,
+  "custom_headers": null
+}
